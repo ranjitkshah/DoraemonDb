@@ -1,4 +1,3 @@
-const { Console } = require('console');
 const doraemonDb = require('./src/index');
 
 // create db json || args( key: string, value: string, TTL: number )
