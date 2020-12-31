@@ -1,6 +1,6 @@
 {
   "name": "doraemondb",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "key-value based storage",
   "main": "src/index.js",
   "scripts": {
@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/ranjitkshah/DoraemonDb/issues"
   },
-  "homepage": "https://github.com/ranjitkshah/DoraemonDb#readme"
+  "homepage": "https://github.com/ranjitkshah/DoraemonDb#readme",
+  "dependencies": {
+    "user": "0.0.0"
+  }
 }
