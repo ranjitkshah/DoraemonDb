@@ -6,7 +6,8 @@ const objectPrototype = Object.prototype;
 
 let storage = (root[storagePrefix] = {});
 
-function SData(key, value, TTL) {
+
+function doraemonDb(key, value, TTL) {
   const { length: argsLength } = arguments;
   if (argsLength < 2) {
     return "add proper key & value";
@@ -15,18 +16,18 @@ function SData(key, value, TTL) {
       return "key already exist";
     } else {
       //TTL(time to leave)
-      TTL = TTL ? TTL + new Date().getTime() : null;
+      TTL = TTL ? (TTL*1000) + new Date().getTime() : null;
       storage[key] = { value, TTL };
-      fs.writeFile("thing.json", SData.toString(), function(err, result) {
+      fs.writeFile("data.json", doraemonDb.toString(), function(err, result) {
         if(err) console.log('error', err);
     });
     }
   }
 }
 
-SData.read = (data) => {
+doraemonDb.read = (data) => {
   let currTime = new Date().getTime();
-  if (!storage[data].TTL && TTL > currTime) {
+  if (!!storage[data].TTL && currTime > storage[data].TTL) {
     delete storage[data];
     return "key expired";
   } else {
@@ -34,11 +35,11 @@ SData.read = (data) => {
   }
 };
 
-SData.all = () => {
+doraemonDb.all = () => {
   return storage;
 };
 
-SData.init = (data) => {
+doraemonDb.init = (data) => {
   if (objectPrototype.toString.call(data) !== "[object Object]") {
     throw new TypeError("Incorrect data");
   }
@@ -46,10 +47,9 @@ SData.init = (data) => {
   storage = root[storagePrefix] = data;
 };
 
-SData.has = (key) => objectPrototype.hasOwnProperty.call(storage, key);
+doraemonDb.has = (key) => objectPrototype.hasOwnProperty.call(storage, key);
 
-SData.delete = function () {
-  SData.file();
+doraemonDb.delete = function () {
   if (arguments.length === 0) {
     storage = root[storagePrefix] = {};
   } else {
@@ -61,7 +61,7 @@ SData.delete = function () {
 
 
 
-SData.toString = () => JSON.stringify(storage);
+doraemonDb.toString = () => JSON.stringify(storage);
 
 
-module.exports = SData;
+module.exports = doraemonDb;

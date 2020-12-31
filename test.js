@@ -1,6 +1,11 @@
-const SData = require('./src/index');
+const { Console } = require('console');
+const doraemonDb = require('./src/index');
 
-SData('1','ranjit',5)
+doraemonDb('1','ranjit',5)
 // console.log(SData('1'))
-console.log(SData.all())
+console.log(doraemonDb.all())
 // console.log(SData.read("1"))
+setTimeout(()=>{
+    console.log(doraemonDb.read('1'))
+},2000)
+
